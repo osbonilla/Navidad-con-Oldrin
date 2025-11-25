@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Navidad con Oldrin</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --red: #e74c3c;
+            --green: #2ecc71;
+            --gold: #f1c40f;
+            --dark: #2c3e50;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: radial-gradient(circle, #1a2a3a 0%, #000000 100%);
+            color: #fff;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Nieve */
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: fall linear infinite;
+            pointer-events: none;
+        }
+        @keyframes fall { to { transform: translateY(110vh); } }
+
+        /* Contenedor */
+        .container {
+            text-align: center;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+            padding: 1rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+            width: 90%;
+            max-width: 450px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px; 
+        }
+
+        h1 {
+            font-family: 'Mountains of Christmas', cursive;
+            font-size: 1.8rem;
+            color: var(--gold);
+            line-height: 1;
+        }
+
+        /* Cheems */
+        .cheems-gif {
+            width: 90px; 
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 5px;
+        }
+
+        /* Contador */
+        .countdown {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 5px;
+        }
+        .time-box { display: flex; flex-direction: column; align-items: center; }
+        .number {
+            font-size: 1.1rem;
+            font-weight: 700;
+            background: var(--red);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+        .label { font-size: 0.55rem; text-transform: uppercase; margin-top: 2px; }
+
+        /* Texto de invitación */
+        .invite-text {
+            font-size: 0.85rem;
+            color: #ddd;
+            margin-bottom: 5px;
+            line-height: 1.3;
+            padding: 0 10px;
+        }
+
+        /* Formulario */
+        .notify-form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        input {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 0.9rem;
+            text-align: center;
+            width: 100%;
+        }
+
+        /* Encuesta para ver si me odian */
+        .survey-area {
+            margin-top: 2px;
+            position: relative;
+            width: 100%;
+        }
+        .survey-title { font-size: 0.9rem; font-weight: bold; margin-bottom: 4px; color: var(--gold); }
+        
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            height: 40px;
+            align-items: center;
+            position: relative;
+        }
+
+        .btn-option {
+            padding: 6px 15px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .btn-no { background: var(--green); color: white; }
+        .btn-si { 
+            background: var(--red); 
+            color: white; 
+            position: absolute; 
+            transition: all 0.1s ease; 
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 10px;
+            background: var(--gold);
+            color: var(--dark);
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        .btn-submit:hover { background: #d4ac0d; }
+
+        /* Ajustes Mobile pequeños */
+        @media (max-height: 700px) {
+            h1 { font-size: 1.4rem; }
+            .cheems-gif { width: 70px; }
+            .invite-text { font-size: 0.75rem; }
+            .container { padding: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Oldrin les desea<br>Feliz Navidad 🎄</h1>
+        
+        <img src="cheems.gif" alt="Cheems" class="cheems-gif">
+
+        <div class="countdown">
+            <div class="time-box"><div class="number" id="days">00</div><span class="label">Días</span></div>
+            <div class="time-box"><div class="number" id="hours">00</div><span class="label">Horas</span></div>
+            <div class="time-box"><div class="number" id="minutes">00</div><span class="label">Min</span></div>
+            <div class="time-box"><div class="number" id="seconds">00</div><span class="label">Seg</span></div>
+        </div>
+
+        <form id="christmasForm" action="https://formspree.io/f/xdkvwrrl" method="POST" class="notify-form">
+            
+            <p class="invite-text">
+                ¿Cuál es tu nombre? Pon tu correo y te notifico cuando sea Navidad 👇
+            </p>
+            <input type="text" name="nombre" placeholder="Tu Nombre" required autocomplete="off">
+            <input type="email" name="email" placeholder="Tu Email" required autocomplete="off">
+
+            <div class="survey-area">
+                <p class="survey-title">¿Me odias? 🥺</p>
+                <div class="btn-container" id="btnArea">
+                    <button type="button" class="btn-option btn-no" onclick="alert('¡Yo tampoco te odio! Vamos por un Zhumir ❤️')">No</button>
+                    <button type="button" class="btn-option btn-si" id="btnSi">Sí</button>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit">Notificarme en Navidad</button>
+        </form>
+    </div>
+
+    <script>
+        // 1. CUENTA REGRESIVA
+        const christmas2025 = new Date("December 25, 2025 00:00:00").getTime();
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const gap = christmas2025 - now;
+            if (gap < 0) return;
+            const second = 1000, minute = second * 60, hour = minute * 60, day = hour * 24;
+            document.getElementById("days").innerText = Math.floor(gap / day);
+            document.getElementById("hours").innerText = Math.floor((gap % day) / hour).toString().padStart(2, '0');
+            document.getElementById("minutes").innerText = Math.floor((gap % hour) / minute).toString().padStart(2, '0');
+            document.getElementById("seconds").innerText = Math.floor((gap % minute) / second).toString().padStart(2, '0');
+        }
+        setInterval(updateCountdown, 1000); updateCountdown();
+
+        // 2. BOTÓN FUGITIVO
+        const btnSi = document.getElementById('btnSi');
+        const btnArea = document.getElementById('btnArea');
+        function moveButton() {
+            const areaRect = btnArea.getBoundingClientRect();
+            const newX = Math.random() * (areaRect.width - 60) - (areaRect.width / 2) + 30;
+            const newY = Math.random() * (areaRect.height - 40) - (areaRect.height / 2) + 20;
+            btnSi.style.transform = `translate(${newX}px, ${newY}px)`;
+        }
+        btnSi.addEventListener('mouseover', moveButton);
+        btnSi.addEventListener('touchstart', (e) => { e.preventDefault(); moveButton(); });
+        btnSi.addEventListener('click', (e) => { e.preventDefault(); moveButton(); });
+
+        // 3. NIEVE
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.style.left = Math.random() * 100 + 'vw';
+            snowflake.style.animationDuration = Math.random() * 3 + 2 + 's';
+            snowflake.style.width = snowflake.style.height = Math.random() * 5 + 2 + 'px';
+            document.body.appendChild(snowflake);
+            setTimeout(() => snowflake.remove(), 5000);
+        }
+        setInterval(createSnowflake, 150);
+    </script>
+</body>
+</html>
